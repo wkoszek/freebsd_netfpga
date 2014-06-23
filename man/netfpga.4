@@ -1,0 +1,134 @@
+.\"
+.\" Copyright (c) 2008-2009 Wojciech A. Koszek <wkoszek@FreeBSD.org>
+.\" All rights reserved.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions
+.\" are met:
+.\" 1. Redistributions of source code must retain the above copyright
+.\"    notice, this list of conditions and the following disclaimer.
+.\" 2. Redistributions in binary form must reproduce the above copyright
+.\"    notice, this list of conditions and the following disclaimer in the
+.\"    documentation and/or other materials provided with the distribution.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+.\" ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+.\" FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+.\" DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+.\" OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+.\" HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+.\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+.\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+.\" SUCH DAMAGE.
+.\"
+.\" $Id$
+.\"
+.Dd August 12, 2009
+.Dt NETFPGA 4
+.Os
+.Sh NAME
+.Nm netfpga
+.Nd "NetFPGA card driver"
+.Sh SYNOPSIS
+To compile this driver into the kernel, place the following lines in your
+kernel configuration file:
+.Bd -ragged -offset indent
+.Cd "device netfpga"
+.Ed
+.Pp
+Alternatively, to load the driver as a module at boot time, place the
+following line in loader.conf:
+.Bd -literal -offset indent
+netfpga_load="YES"
+.Ed
+.Sh DESCRIPTION
+The
+.Nm
+driver provides support for NetFPGA card designed at Stanford University and
+manufactured by Digilent Inc.
+.Pp
+NetFPGA PCI card contains reprogrammable Xilinx Virtex-II Pro 50
+reprogrammable FPGA processor, 4 Gigabit Ethernet ports handled by Broadcom
+BCM5464SR chip, 4.5MB of SRAM, 64MB of DDRAM and 2 SATA connectors.
+.Pp
+Card can be programmed from the host PC, without a need of any other
+hardware tools.
+In order to understand NetFPGA functionality, several card's elements
+have to be distinguished. Following nomenclature is used within
+NetFPGA project:
+.Bl -tag -width "CPCI"
+.It CPCI 
+Xilinx Spartan 2 FPGA processor is responsible for PCI communication.
+At boot, this chips reads a bitstream from on-board flash and
+provides enough functionality for the device to appear on
+the PCI system bus.
+.It CNET
+Xilinx Virtex-II Pro FPGA processor is the core of the processing
+on the board -- it is responsible for communication with CPCI chip
+mentioned above, as well as all other board peripherials
+.It PHY
+Broadcom BCM5464SR chip responsible for Ethernet communication.
+The whole communication with PHY chip is handled by CNET chip, and
+only partial functionality is redirected.
+.El
+.Pp
+The driver's infrastructure is modular, and has been divided between 2
+entities:
+.Bl -tag -width "nfc"
+.It nfc
+The NetFPGA Controller, that will appear as a bus driver to the
+system. It detects the card at boot time and provides enough functionality 
+to program CNET processor later. It is a provider of /dev/netfpga interface
+device as well.
+.It nfp
+The NetFPGA Port, that will appear only if Ethernet-related bitstream
+is programmed on the card.
+.El
+.Pp
+After PC boot sequence, due to several problems with CPCI
+default firmware, CPCI chip has to be reprogrammed.
+Following steps need to be taken:
+.Bl -bullet
+.It
+In order to program CPCI chip, CNET reprogrammer code 
+cpci_reprogrammer.bit bitstream file has to bo programmed to the CNET
+chip.
+.It
+CPCI_VER.bit file has to be programmed to CPCI chip.
+.It
+FPGA chip can be programmed with a target bitstream.
+.El
+.Pp
+All of those steps can be performed with
+.Xr netfpga 8
+utility.
+Refer to
+.Xr netfpga 8
+manual page for more details.
+.Pp
+.Sh  NOTES
+The board's schematics and design documents are all available
+publicly and are present on NetFPGA Project website.
+.Sh IMPLEMENTATION NOTES
+Various PCI registers have to be saved and CPCI firmware is sent to
+the board. PCI chip is reset and some register values are lost, thus
+we need to restore previously saved values.
+NetFPGA support in Linux forces user to run
+.Xr dumpregs.sh
+and
+.Xr loadregs.sh
+scripts in order to accomplish this.
+FreeBSD
+.Nm
+driver supports this without user intervention.
+.Sh BUGS
+It hasn't been confirmed if support for only 1 TX/RX mitigated ring
+is actually a limitation.
+.Sh HISTORY
+The
+.Nm
+driver first appeared in FreeBSD 9.0
+.Sh AUTHORS
+.An "Wojciech A. Koszek" Aq wkoszek@FreeBSD.org

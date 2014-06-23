@@ -1,0 +1,157 @@
+.Dd August 17, 2009
+.Os
+.Dt LIBNETFPGA
+.Sh NETGPA
+.Nm xbf 3
+.Nd Xilinx Bitfile Library
+.Sh SYNOPSIS
+.Ft "const char *"
+.Fo nf_strerror
+.Fa "struct netfpga *nf"
+.Fc
+.\"-----------------------------------------------------------------
+.Ft int
+.Fo nf_start
+.Fa "struct netfpga *nf"
+.Fc
+.\"-----------------------------------------------------------------
+.Ft int
+.Fo nf_stop
+.Fa "struct netfpga *nf"
+.Fc
+.\"-----------------------------------------------------------------
+.Ft void
+.Fo nf_reset
+.Fa "struct netfpga *nf"
+.Fc
+.\"-----------------------------------------------------------------
+.Ft void
+.Fo nf_reset_allphy
+.Fa "struct netfpga *nf"
+.Fc
+.\"-----------------------------------------------------------------
+.Ft int
+.Fo nf_read
+.Fa "struct netfpga *nf"
+.Fa "uint32_t reg"
+.Fa "void *buf"
+.Fa "size_t buf_len"
+.Fc
+.\"-----------------------------------------------------------------
+.Ft int
+.Fo nf_write
+.Fa "struct netfpga *nf"
+.Fa "uint32_t reg"
+.Fa "void *buf"
+.Fa "size_t buf_len"
+.Fc
+.\"-----------------------------------------------------------------
+.Ft uint32_t
+.Fo nf_rd32
+.Fa "struct netfpga *nf"
+.Fa "uint32_t reg"
+.Fc
+.\"-----------------------------------------------------------------
+.Ft void
+.Fo nf_wr32
+.Fa "struct netfpga *nf"
+.Fa "uint32_t reg"
+.Fa "uint32_t value"
+.Fc
+.\"-----------------------------------------------------------------
+.Ft int
+.Fo nf_reg_byname
+.Fa "struct netfpga *nf"
+.Fa "const char *name"
+.Fa "uint32_t *reg"
+.Fc
+.\"-----------------------------------------------------------------
+.Ft void
+.Fo nf_reg_print_all
+.Fa "struct netfpga *nf"
+.Fa "int verbose"
+.Fc
+.\"-----------------------------------------------------------------
+.Ft int
+.Fo nf_image_name
+.Fa "struct netfpga *nf"
+.Fa "char *dev_name"
+.Fa "size_t dev_name_len"
+.Fc
+.\"-----------------------------------------------------------------
+.Ft int
+.Fo nf_cnet_validate
+.Fa "struct netfpga *nf"
+.Fa "struct xbf *xbf"
+.Fc
+.\"-----------------------------------------------------------------
+.Ft int
+.Fo nf_cpci_validate
+.Fa "struct netfpga *nf"
+.Fa "struct xbf *xbf"
+.Fc
+.\"-----------------------------------------------------------------
+.Ft int
+.Fo nf_prog_reset
+.Fa "struct netfpga *nf"
+.Fc
+.\"-----------------------------------------------------------------
+.Ft int
+.Fo nf_image_write
+.Fa "struct netfpga *nf"
+.Fa "const char *fname"
+.Fc
+.\"-----------------------------------------------------------------
+.Ft int
+.Fo nf_cpci_write
+.Fa "struct netfpga *nf"
+.Fa "const char *fname"
+.Fc
+.\"-----------------------------------------------------------------
+.Ft void
+.Fo nf_image_name_print_fp
+.Fa "struct netfpga *nf"
+.Fa "FILE *fp"
+.Fc
+.\"-----------------------------------------------------------------
+.Ft void
+.Fo nf_image_name_print
+.Fa "struct netfpga *nf"
+.Fc
+.\"-----------------------------------------------------------------
+.Sh DESCRIPTION
+.Nm
+lets you to easily operate on Stanford NetFPGA card from the
+userspace.
+It's major purpose is to provide API for tools like
+.Xr nfutil 8 ,
+and to provide portable way to interface with the kernel driver
+See
+.Xr nf 4
+for more information.
+.Pp
+.Nm
+uses
+.Fa netfpga
+structures across all API functions.
+Its main fields are:
+.Pp
+.Bd -literal -offset indent
+struct netfpga {
+	const char	*nf_iface;
+	const char	*nf_module;
+	int		 nf_verbose;
+};
+.Ed
+.Pp
+The members of this structure are
+.Bl -tag -width "nf_verbose"
+.It Fa nf_iface
+Name of a system device for NetFPGA. By default it's
+.Pa /dev/netfpga0 .
+.It Fa nf_verbose
+If non-zero, makes
+.Nm
+to report more verbose error messages.
+.El
+

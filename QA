@@ -1,0 +1,49 @@
+- When CPCI programming is needed, and if it's needed at all?
+  How to get it working reliably on GNU/Linux host?
+
+- Interrupt mask/interrupt status registers ready are correct, almost
+  for 99%. When the kernel module is present, and the interrupt handler
+  is registered, and the device starts to be programmed, INT_PROG_ERROR
+  appears.
+  
+  DMA stuff seems to be reacting to values written to DMA register
+  addresses. We need to get it right now.
+
+
+-- Once more code is ready --
+-  Ask NetFPGA guys how register addresses will change. Right now, it
+   seems to be very unsorted approach.
+
+   Between netfpga_base_beta_1_1 and netfpga_base_beta_1_2_5_2_CentOS5
+   even address of "Device Version" got changed..
+
+-  Ask Stanford people about "Image Size" register, that would be quite
+   useful for user-space application development.
+
+-  Propose "NetFPGA" instead of "NetFPGA2" naming. Project should be handled
+   in such a way, that I can use one program to all revisions of a board.
+
+-  Propose "serial-number" extension to CPCI bitfile so that "fixed"
+   (definite/unique) distinction can be made between 2 NetFPGA boards, when
+   plugged together in a system.
+
+
+-  Instead of this:
+
+	  /* Pad the skb to be at least 60 bytes. Call the padding function to ensure
+	   * that there is no information leakage */
+
+   Which gives a feeling of being Ethernet header related, there should be a comment
+   like this:
+
+	   /* Card can DMA at least 60 bytes */
+
+   Proof:
+
+	wkoszek@laptop:/home/wkoszek/work/ericsson/pcap# tcpdump -e -i re0
+	tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+	listening on re0, link-type EN10MB (Ethernet), capture size 96 bytes
+	12:45:20.953510 00:03:2f:31:69:38 (oui Unknown) > Broadcast, ethertype ARP (0x0806), length 60: Request who-has 192.168.0.0 tell 192.168.1.2, length 46
+	                                                                                                                ^^^^^^^^^^^
+
+   This is Gratuitous ARP from 192.168.1.2 (NetFPGA development machine).

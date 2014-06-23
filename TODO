@@ -1,0 +1,14 @@
+Pekka Nikander's draft of tasks expected to be completed:
+
+1.	Basic NetFPGA driver for FreeBSD (host mode)
+	- NetFPGA visible at FreeBSD address space
+	- Ability to read and write registers
+	- Linux command line tools ports / reimplemented
+1.1	Be able to program binaries from FreeBSD.
+2.	NetFPGA visible as(reference 4-Gbit Ethernet card in FreeBSD:
+2.1	Data goes through PCI (less important)
+2.2	Data goes through SATA (more important and may turn to be
+	impossible
+2.3	Zero-copy receiving
+
+It was agreed 2.2 and 2.3 are sort of long-term work.
