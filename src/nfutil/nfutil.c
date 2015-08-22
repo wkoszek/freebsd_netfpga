@@ -91,7 +91,7 @@ nfu_cnet_write(struct cla *cla, int argc, char **argv)
 	int error;
 
 	cla_assert(cla);
-	nf = cla_get_softc(cla);
+	nf = cla_get_func_arg(cla);
 	if (argc != 2)
 		return (cla_erri(cla,
 		    "Command requires one argument <file>"));
@@ -110,7 +110,7 @@ static int
 nfu_cnet_info(struct cla *cla, int argc, char **argv)
 {
 
-	nf_image_name_print(cla_get_softc(cla));
+	nf_image_name_print(cla_get_func_arg(cla));
 	return (0);
 }
 
@@ -122,7 +122,7 @@ nfu_cpci_write(struct cla *cla, int argc, char **argv)
 {
 	struct netfpga *nf;
 
-	nf = cla_get_softc(cla);
+	nf = cla_get_func_arg(cla);
 	if (argc != 2)
 		return (cla_erri(cla,
 		    "Command requires an argument <file>"));
@@ -151,7 +151,7 @@ nfu_reg_read(struct cla *cla, int argc, char **argv)
 	uint32_t value;
 	int ret;
 
-	nf = cla_get_softc(cla);
+	nf = cla_get_func_arg(cla);
 	if (argc != 2)
 		return (cla_erri(cla, "Command requires an argument <reg>"));
 	ret = sscanf(argv[1], "0x%x", &reg);
@@ -185,7 +185,7 @@ nfu_reg_write(struct cla *cla, int argc, char **argv)
 		return (cla_erri(cla, "Command requires two arguments"
 			" <reg> and <value>"));
 
-	nf = cla_get_softc(cla);
+	nf = cla_get_func_arg(cla);
 	/* Read register offset or name */
 	ret = sscanf(argv[1], "0x%x", &reg);
 	if (ret != 1)
@@ -220,7 +220,7 @@ nfu_reg_list(struct cla *cla, int argc, char **argv)
 	verbose = 0;
 	if (argc == 2 && strcmp(argv[1], "-v") == 0)
 		verbose = 1;
-	nf = cla_get_softc(cla);
+	nf = cla_get_func_arg(cla);
 	nf_assert(nf);
 	nf_reg_print_all(nf, verbose);
 	return (0);
@@ -277,7 +277,7 @@ nfu_cmdlist_build(void *softc)
 	cla_add_cmd(cpci, cnet);
 
 	cla_add_subcmd(nf, reg);
-	cla_set_softc(nf, softc);
+	cla_set_func_arg(nf, softc);
 
 	return (nf);
 }
