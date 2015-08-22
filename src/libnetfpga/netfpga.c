@@ -66,7 +66,7 @@ extern struct nf_module nf2_dummy;
 extern struct nf_module nf2_freebsd;
 extern struct nf_module nf2_linux;
 
-struct nf_module *nf_modules[] = {
+static struct nf_module *nf_modules[] = {
 #ifdef __FreeBSD__
 	&nf2_freebsd,
 #endif
@@ -482,7 +482,7 @@ nf_reg_print_all(struct netfpga *nf, int verbose)
  * been synthetized on a device.
  */
 int
-nf_image_name(struct netfpga *nf, char *dev_name, size_t dev_name_len)
+nf_image_name(struct netfpga *nf, void *dev_name, size_t dev_name_len)
 {
 	uint32_t *u32;
 	int i;
@@ -492,7 +492,7 @@ nf_image_name(struct netfpga *nf, char *dev_name, size_t dev_name_len)
 	if (dev_name_len < NF2_DEVICE_STR_LEN)
 		return (nf_erri(nf, "Buffer lenght for image name must "
 		    "have at least %d bytes", NF2_DEVICE_STR_LEN));
-	u32 = (uint32_t *)dev_name;
+	u32 = dev_name;
 	for (i = 0; i < NF2_DEVICE_STR_LEN / 4; i += 4, u32++)
 		*u32 = htonl(nf_rd32(nf, DEVICE_STR_REG + i));
 	return (0);
@@ -673,8 +673,8 @@ nf_image_write_start(struct netfpga *nf, struct xbf *xbf)
 	(void)status;
 
 	bytes_written = 0;
-	prog_word = (const uint32_t *)xbf_get_data(xbf);
-	printf("Expected to write = %d\n", xbf_get_len(xbf));
+	prog_word = xbf_get_data(xbf);
+	printf("Expected to write = %d\n", (int)xbf_get_len(xbf));
 
 	nwrites = xbf_get_len(xbf) / 4;
 
@@ -703,7 +703,7 @@ nf_image_write_start(struct netfpga *nf, struct xbf *xbf)
 			printf(".");
 	}
 	printf("\n");
-	printf("Bytes_written = %d\n", bytes_written);
+	printf("Bytes_written = %d\n", (int)bytes_written);
 	return (bytes_written);
 }
 
@@ -780,7 +780,7 @@ nf_cpci_write_start(struct netfpga *nf, struct xbf *xbf)
 	}
 	printf("\n");
 	printf("CPCI reprogramming finished (expected %d, written "
-	    "%d)\n", xbf_get_len(xbf), bytes_written);
+	    "%d)\n", (int)xbf_get_len(xbf), (int)bytes_written);
 	return (0);
 }
 
