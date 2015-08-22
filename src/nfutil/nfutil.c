@@ -92,12 +92,15 @@ nfu_cnet_write(struct cla *cla, int argc, char **argv)
 
 	cla_assert(cla);
 	nf = cla_get_func_arg(cla);
-	if (argc != 2)
-		return (cla_erri(cla,
-		    "Command requires one argument <file>"));
+	if (argc != 2) {
+		fprintf(stderr, "Command requires one argument <file>");
+		return -1;
+	}
 	error = nf_image_write(nf, argv[1]);
-	if (error != 0)
-		return (cla_erri(cla, "Programming failed"));
+	if (error != 0) {
+		fprintf(stderr, "Programming failed");
+		return -2;
+	}
 	nf_image_name_print(nf);
 	return (error);
 }
@@ -123,9 +126,10 @@ nfu_cpci_write(struct cla *cla, int argc, char **argv)
 	struct netfpga *nf;
 
 	nf = cla_get_func_arg(cla);
-	if (argc != 2)
-		return (cla_erri(cla,
-		    "Command requires an argument <file>"));
+	if (argc != 2) {
+		fprintf(stderr, "Command requires an argument <file>");
+		return -1;
+	}
 	return (nf_cpci_write(nf, argv[1]));
 }
 
@@ -152,16 +156,20 @@ nfu_reg_read(struct cla *cla, int argc, char **argv)
 	int ret;
 
 	nf = cla_get_func_arg(cla);
-	if (argc != 2)
-		return (cla_erri(cla, "Command requires an argument <reg>"));
+	if (argc != 2) {
+		fprintf(stderr, "Command requires an argument <reg>");
+		return -1;
+	}
 	ret = sscanf(argv[1], "0x%x", &reg);
 	if (ret != 1)
 		ret = sscanf(argv[1], "%d", &reg);
 	if (ret != 1)
 		ret = nf_reg_byname(nf, argv[1], &reg);
-	if (ret != 1)
-		return (cla_erri(cla, "Couldn't convert register name"
-		    " %s to the offset value", argv[1]));
+	if (ret != 1) {
+		fprintf(stderr, "Couldn't convert register name"
+		    " %s to the offset value", argv[1]);
+		return -1;
+	}
 	value = nf_rd32(nf, reg);
 	if (!flag_quiet)
 		printf("Register %s = ", argv[1]);
@@ -181,9 +189,11 @@ nfu_reg_write(struct cla *cla, int argc, char **argv)
 	uint32_t reg;
 
 	cla_assert(cla);
-	if (argc != 3)
-		return (cla_erri(cla, "Command requires two arguments"
-			" <reg> and <value>"));
+	if (argc != 3) {
+		fprintf(stderr, "Command requires two arguments"
+			" <reg> and <value>");
+		return -1;
+	}
 
 	nf = cla_get_func_arg(cla);
 	/* Read register offset or name */
@@ -192,16 +202,19 @@ nfu_reg_write(struct cla *cla, int argc, char **argv)
 		ret = sscanf(argv[1], "%d", &reg);
 	if (ret != 1)
 		reg = nf_reg_byname(nf, argv[1], &reg);
-	if (ret != 1)
-		return (cla_erri(cla, "Register format '%s' is wrong",
-		    argv[1]));
+	if (ret != 1) {
+		fprintf(stderr, "Register format '%s' is wrong",
+		    argv[1]);
+		return -1;
+	}
 
 	/* Read value */
 	ret = sscanf(argv[2], "0x%x", &value);
 	if (ret != 1)
 		ret = sscanf(argv[2], "%d", &value);
 	if (ret != 1) {
-		return (cla_erri(cla, "Value format '%s' is wrong", argv[2]));
+		fprintf(stderr, "Value format '%s' is wrong", argv[2]);
+		return -1;
 	}
 	nf_wr32(nf, reg, value);
 	return (0);
