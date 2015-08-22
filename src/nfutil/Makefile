@@ -13,5 +13,5 @@ CFLAGS+= -I../libnetfpga
 
 CFLAGS+= -g -ggdb -Wall -O2
 
-nfutil: $(SRCS)
+nfutil: $(SRCS) makefile
 	$(CC) $(CFLAGS) $(SRCS) -o nfutil

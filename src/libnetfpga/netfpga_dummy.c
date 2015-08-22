@@ -50,6 +50,9 @@ nf_read_t nf2_dummy_read;
 nf_write_t nf2_dummy_write;
 
 #define DUMMY(...) do {					\
+	if (1) {					\
+		break;					\
+	}						\
 	printf("%s(%d) called,", __func__, __LINE__);	\
 	printf(" " __VA_ARGS__);			\
 	printf("\n");					\
