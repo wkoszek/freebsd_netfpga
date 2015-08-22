@@ -244,10 +244,10 @@ nfu_cmdlist_build(void *softc)
 	struct cla *reg_write;
 	struct cla *reg_list;
 
-	nf = cla_new_node("nfutil");
-	reg = cla_new_node("reg");
-	cpci = cla_new_node("cpci");
-	cnet = cla_new_node("cnet");
+	nf = cla_new("nfutil");
+	reg = cla_new("reg");
+	cpci = cla_new("cpci");
+	cnet = cla_new("cnet");
 
 	cnet_write = cla_new(nfu_cnet_write, "Write CNET bitstream",
 	    "write <file>");
