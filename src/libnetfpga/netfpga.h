@@ -159,7 +159,7 @@ int nf_read(struct netfpga *nf, uint32_t reg, void *buf, size_t buf_len);
 int nf_write(struct netfpga *nf, uint32_t reg, void *buf, size_t buf_len);
 uint32_t nf_rd32(struct netfpga *nf, uint32_t reg);
 void nf_wr32(struct netfpga *nf, uint32_t reg, uint32_t value);
-int nf_image_name(struct netfpga *nf, char *dev_name, size_t dev_name_len);
+int nf_image_name(struct netfpga *nf, void *dev_name, size_t dev_name_len);
 void nf_image_name_print_fp(struct netfpga *nf, FILE *fp);
 void nf_image_name_print(struct netfpga *nf);
 int nf_prog_reset(struct netfpga *nf);

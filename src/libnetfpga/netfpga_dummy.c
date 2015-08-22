@@ -90,7 +90,7 @@ nf2_dummy_read(struct netfpga *nf, void *ctx, uint32_t reg, void *buf, size_t bu
 
 	(void)nf;
 	ASSERT(ctx != NULL);
-	DUMMY("read request (reg %#x, to %p, length %d)", reg, buf, buf_len);
+	DUMMY("read request (reg %#x, to %p, length %d)", reg, buf, (int)buf_len);
 	return (buf_len);
 }
 
@@ -100,7 +100,7 @@ nf2_dummy_write(struct netfpga *nf, void *ctx, uint32_t reg, void *buf, size_t b
 
 	(void)nf;
 	ASSERT(ctx != NULL);
-	DUMMY("write request (reg %#x, to %p, length %d)", reg, buf, buf_len);
+	DUMMY("write request (reg %#x, to %p, length %d)", reg, buf, (int)buf_len);
 	return (buf_len);
 }
 
