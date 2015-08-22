@@ -353,7 +353,7 @@ main(int argc, char **argv)
 	cmdtree = nfu_cmdlist_build(&nf);
 	error = cla_dispatch(cmdtree, "Usage:\n", argc, argv, CLADIS_NODE_USAGE);
 	if (error)
-		errx(EXIT_FAILURE, "%s (error: %d)", cla_errmsg(cmdtree), -error);
+		errx(EXIT_FAILURE, "%s (error: %d)", cla_strerror(error), -error);
 	error = nf_stop(&nf);
 	if (error != 0)
 		err(EXIT_FAILURE, "%s", nf_strerror(&nf));
