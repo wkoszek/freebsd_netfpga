@@ -30,6 +30,17 @@ programs `contrib/cmd_static`, which was an experiment to implement the
 static structures for the command line handling. The `contrib/multisysctl`
 was implemented to help me understand SYSCTLs better.
 
+# How to build
+
+To compile the driver, use the following commands:
+
+	git clone https://github.com/wkoszek/freebsd_netfpga.git
+	cd freebsd_netfpga/src
+	git clone https://github.com/wkoszek/libcla.git
+	git clone https://github.com/wkoszek/libxbf.git
+	cd ..
+	make
+
 
 Wojciech A. Koszek
 wkoszek@FreeBSD.org
