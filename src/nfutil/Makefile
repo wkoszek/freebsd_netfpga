@@ -1,28 +1,17 @@
-.PATH:					\
-	${.CURDIR}/../libcla		\
-	${.CURDIR}/../libnetfpga	\
-	${.CURDIR}/../libxbf
+SRCS=	\
+	../libnetfpga/netfpga.c \
+	../libnetfpga/netfpga_dummy.c \
+	../libnetfpga/netfpga_linux.c \
+	../libnetfpga/netfpga_freebsd.c \
+	../../../libxbf/xbf.c \
+	../../../libcla/cla.c	\
+	nfutil.c
 
-CFLAGS+=-g -ggdb
-CFLAGS+=-O0
-CFLAGS+=		\
-	-I../libcla     \
-	-I../libnetfpga \
-	-I../libxbf
+CFLAGS+= -I../../../libxbf
+CFLAGS+= -I../../../libcla
+CFLAGS+= -I../libnetfpga
 
-PROG=   nfutil
+CFLAGS+= -g -ggdb -Wall -O2
 
-SRCS+=				\
-        cla.c			\
-        netfpga.c		\
-        netfpga_dummy.c		\
-        netfpga_linux.c		\
-        netfpga_freebsd.c	\
-        xbf.c			\
-        nfutil.c
-
-NO_MAN= yes
-
-.include <bsd.prog.mk>
-
-
+nfutil: $(SRCS)
+	$(CC) $(CFLAGS) $(SRCS) -o nfutil
