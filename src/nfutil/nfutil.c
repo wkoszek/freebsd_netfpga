@@ -244,32 +244,32 @@ nfu_cmdlist_build(void *softc)
 	struct cla *reg_write;
 	struct cla *reg_list;
 
-	nf = cla_new("nfutil");
-	reg = cla_new("reg");
-	cpci = cla_new("cpci");
-	cnet = cla_new("cnet");
+	nf = cla_new(NULL, NULL, NULL, NULL, "nfutil");
+	reg = cla_new(NULL, NULL, NULL, NULL, "reg");
+	cpci = cla_new(NULL, NULL, NULL, NULL, "cpci");
+	cnet = cla_new(NULL, NULL, NULL, NULL, "cnet");
 
-	cnet_write = cla_new(nfu_cnet_write, "Write CNET bitstream",
-	    "write <file>");
-	cnet_info = cla_new(nfu_cnet_info, "Obtain information about CNET "
-	    "bitstream", "info");
+	cnet_write = cla_new(nfu_cnet_write, NULL, NULL,
+	    "Write CNET bitstream", "write <file>");
+	cnet_info = cla_new(nfu_cnet_info, NULL, NULL,
+	    "Obtain information about CNET bitstream", "info");
 	cla_add_subcmd(cnet, cnet_write);
 	cla_add_subcmd(cnet, cnet_info);
 
-	reg_read = cla_new(nfu_reg_read, "Reads NetFPGA register",
-	    "read <reg>");
-	reg_write = cla_new(nfu_reg_write, "Writes NetFPGA register",
-	    "write <reg> <value>");
-	reg_list = cla_new(nfu_reg_list, "Lists all NetFPGA registers",
-	    "list");
+	reg_read = cla_new(nfu_reg_read, NULL, NULL,
+	    "Reads NetFPGA register", "read <reg>");
+	reg_write = cla_new(nfu_reg_write, NULL, NULL,
+	    "Writes NetFPGA register", "write <reg> <value>");
+	reg_list = cla_new(nfu_reg_list, NULL, NULL,
+	    "Lists all NetFPGA registers", "list");
 	cla_add_subcmd(reg, reg_read);
 	cla_add_subcmd(reg, reg_write);
 	cla_add_subcmd(reg, reg_list);
 
-	cpci_write = cla_new(nfu_cpci_write, "Write CPCI bitstream",
-	    "write <file>");
-	cpci_info = cla_new(nfu_cpci_info, "Obtain information about CPCI "
-	    "bitstream", "info");
+	cpci_write = cla_new(nfu_cpci_write, NULL, NULL,
+	    "Write CPCI bitstream", "write <file>");
+	cpci_info = cla_new(nfu_cpci_info, NULL, NULL,
+	    "Obtain information about CPCI bitstream", "info");
 	cla_add_subcmd(cpci, cpci_write);
 	cla_add_subcmd(cpci, cpci_info);
 
