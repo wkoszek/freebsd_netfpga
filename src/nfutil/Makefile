@@ -15,3 +15,6 @@ CFLAGS+= -g -ggdb -Wall -O2
 
 nfutil: $(SRCS) makefile
 	$(CC) $(CFLAGS) $(SRCS) -o nfutil
+
+clean:
+	rm -rf *.o *.dSYM nfutil
