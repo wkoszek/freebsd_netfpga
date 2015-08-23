@@ -1,8 +1,17 @@
 # The FreeBSD drive for the Stanford NetFPGA 1G card
 
-My FreeBSD + NetFPGA work done over a 01.07.2009--31.08.2009 duration. This
-directory is self-contained and should have everything what's necessary to
-get the driver working and the card programmed.
+My FreeBSD + NetFPGA work done over a 01.07.2009--31.08.2009 duration. In
+2015 in hope to keep parts of this project alive I wired it to Travis, so
+that most of the software still builds with new tools with no warnings.
+Changes I made on MacOSX/GNU Linux, without the actual hardware connected,
+since I no longer have an access to the desktop machines.
+
+Early versions of this directory were self-contained and had everything
+what's necessary to get the driver working and the card programmed and were
+proved to compile and work on FreeBSD. In case my 2015 fixes broke
+something, so `git checkout` the initial code import.
+
+# Introduction
 
 The command line handling library is in `src/libcla` (it has since been
 ported to a separate repository https://github.com/wkoszek/libcla too).
@@ -34,14 +43,40 @@ was implemented to help me understand SYSCTLs better.
 
 To compile the driver, use the following commands:
 
+
 	git clone https://github.com/wkoszek/freebsd_netfpga.git
-	cd freebsd_netfpga/src
-	git clone https://github.com/wkoszek/libcla.git
-	git clone https://github.com/wkoszek/libxbf.git
-	cd ..
+	cd src/nfutil/
 	make
 
+The clone of the repository, as a result of having modules, will pull 2 more
+libraries:
 
-Wojciech A. Koszek
-wkoszek@FreeBSD.org
-http://FreeBSD.czest.pl/~wkoszek/
+	https://github.com/wkoszek/libcla
+	https://github.com/wkoszek/libxbf
+
+Since the `nfutil` requires to have `libcla` for command line parsing and
+`libxbf` for bitfile reading.
+
+# How to run
+
+Usage is as follows:
+
+	$ nfutil -h
+
+	nfutil
+		reg
+			read <reg>
+			write <reg> <value>
+			list
+		cpci
+			write <file>
+			info
+		cnet
+			write <file>
+			info
+
+First you'll have to program the CPCI bridge with CPCI firmware. Then you
+can program the CNET FPGA:
+
+	nfutil cpci write <file>
+	nfutil cnet write <file>
