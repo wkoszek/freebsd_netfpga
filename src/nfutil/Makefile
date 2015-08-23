@@ -3,8 +3,8 @@ SRCS=	\
 	../libnetfpga/netfpga_dummy.c \
 	../libnetfpga/netfpga_linux.c \
 	../libnetfpga/netfpga_freebsd.c \
-	../../../libxbf/xbf.c \
-	../../../libcla/cla.c	\
+	../../contrib/libcla/cla.c \
+	../../contrib/libxbf/xbf.c \
 	nfutil.c
 
 CFLAGS+= -I../../../libxbf
