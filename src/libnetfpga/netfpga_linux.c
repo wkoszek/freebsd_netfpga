@@ -30,14 +30,14 @@
 
 #ifdef __linux__
 #include <sys/types.h>
-#include <sys/ioccom.h>
 
 #include <assert.h>
+#include <fcntl.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "../../include/nf2_common.h"
 #include "../../include/nf2.h"

@@ -28,10 +28,15 @@
  * $Id$
  */
 
+#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/ioctl.h>
 #include <sys/utsname.h>
 #include <sys/sysctl.h>
+
+#ifdef __linux__
+#include <linux/sysctl.h>
+#endif
 
 #include <netinet/in.h>
 
@@ -42,6 +47,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <stdarg.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -361,7 +367,10 @@ _nf_get_regs(void)
 	ASSERT(list != NULL);
 	TAILQ_INIT(list);
 
+	error = 0;
+#ifndef __linux__
 	error = sysctlbyname("dev.nfc.0.dev_uiface", NULL, NULL, NULL, 0);
+#endif
 	if (error != 0)
 		return (NULL);
 

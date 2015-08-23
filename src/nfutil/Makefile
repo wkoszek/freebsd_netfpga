@@ -5,6 +5,7 @@ SRCS=	\
 	../libnetfpga/netfpga_freebsd.c \
 	../../contrib/libcla/cla.c \
 	../../contrib/libxbf/xbf.c \
+	../../contrib/libxbf/contrib/strlcat.c \
 	nfutil.c
 
 CFLAGS+= -I../../contrib/libxbf
