@@ -5,4 +5,4 @@ compiler:
 script:
 - cd src/nfutil/
 - make
-- ./nfutil
+- ./nfutil -h
