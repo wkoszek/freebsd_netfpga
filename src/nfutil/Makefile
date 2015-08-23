@@ -7,8 +7,8 @@ SRCS=	\
 	../../contrib/libxbf/xbf.c \
 	nfutil.c
 
-CFLAGS+= -I../../../libxbf
-CFLAGS+= -I../../../libcla
+CFLAGS+= -I../../contrib/libxbf
+CFLAGS+= -I../../contrib/libcla
 CFLAGS+= -I../libnetfpga
 
 CFLAGS+= -g -ggdb -Wall -O2

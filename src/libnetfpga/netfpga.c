@@ -52,7 +52,7 @@
 #include "../../include/reg_defines.h"
 #include "../../include/nf2_common.h"
 #include "../../include/netfpga_freebsd.h"
-#include "../libxbf/xbf.h"
+#include "../../contrib/libxbf/xbf.h"
 
 #include "netfpga.h"
 
