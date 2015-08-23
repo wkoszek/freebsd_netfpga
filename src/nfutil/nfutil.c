@@ -308,12 +308,13 @@ main(int argc, char **argv)
 	char *arg_module;
 	int error;
 	int flag_verbose;
+	int flag_help;
 	int its_nfutil;
 	int o;
 
 	cmdtree = NULL;
 	arg_iface = arg_module = NULL;
-	o = flag_verbose = flag_quiet = error = 0;
+	o = flag_verbose = flag_quiet = flag_help = error = 0;
 	its_nfutil = 0;
 
 	setbuf(stdout, NULL);
@@ -322,7 +323,7 @@ main(int argc, char **argv)
 	if (strcmp(argv[0], "./nfutil") == 0)
 		its_nfutil = 1;
 
-	while ((o = getopt(argc, argv, "i:m:qv")) != -1)
+	while ((o = getopt(argc, argv, "i:m:qvh")) != -1)
 		switch (o) {
 		case 'i':
 			arg_iface = optarg;
@@ -336,6 +337,9 @@ main(int argc, char **argv)
 		case 'v':
 			flag_verbose++;
 			break;
+		case 'h':
+			flag_help++;
+			break;
 		}
 
 	argc -= optind - 1;
@@ -348,10 +352,16 @@ main(int argc, char **argv)
 	nf.nf_iface = arg_iface;
 	nf.nf_verbose = flag_verbose;
 	nf.nf_module = arg_module;
+
+	cmdtree = nfu_cmdlist_build(&nf);
+	if (flag_help) {
+		cla_print(cmdtree);
+		exit(0);
+	}
+
 	error = nf_start(&nf);
 	if (error != 0)
 		err(EXIT_FAILURE, "%s", nf_strerror(&nf));
-	cmdtree = nfu_cmdlist_build(&nf);
 	error = cla_dispatch(cmdtree, "Usage:\n", argc, argv, CLADIS_NODE_USAGE);
 	if (error)
 		errx(EXIT_FAILURE, "%s (error: %d)", cla_strerror(error), -error);
