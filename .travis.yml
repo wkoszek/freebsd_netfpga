@@ -1,0 +1,8 @@
+language: c
+compiler:
+- clang
+- gcc
+script:
+- cd src/nfutil/
+- make
+- ./nfutil
