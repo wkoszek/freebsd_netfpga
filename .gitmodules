@@ -1,0 +1,6 @@
+[submodule "contrib/libxbf"]
+	path = contrib/libxbf
+	url = https://github.com/wkoszek/libxbf
+[submodule "contrib/libcla"]
+	path = contrib/libcla
+	url = https://github.com/wkoszek/libcla
