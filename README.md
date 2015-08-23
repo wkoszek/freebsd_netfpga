@@ -1,4 +1,4 @@
-# The FreeBSD drive for the Stanford NetFPGA 1G card
+# The FreeBSD driver for the Stanford NetFPGA 1G card
 
 My FreeBSD + NetFPGA work done over a 01.07.2009--31.08.2009 duration. In
 2015 in hope to keep parts of this project alive I wired it to Travis, so
