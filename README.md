@@ -80,3 +80,8 @@ can program the CNET FPGA:
 
 	nfutil cpci write <file>
 	nfutil cnet write <file>
+
+# Author
+
+- Wojciech Adam Koszek, [wojciech@koszek.com](mailto:wojciech@koszek.com)
+- [http://www.koszek.com](http://www.koszek.com)
