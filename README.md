@@ -1,5 +1,7 @@
 # The FreeBSD driver for the Stanford NetFPGA 1G card
 
+[![Build Status](https://travis-ci.org/wkoszek/freebsd_netfpga.svg?branch=master)](https://travis-ci.org/wkoszek/freebsd_netfpga)
+
 My FreeBSD + NetFPGA work done over a 01.07.2009--31.08.2009 duration. In
 2015 in hope to keep parts of this project alive I wired it to Travis, so
 that most of the software still builds with new tools with no warnings.
